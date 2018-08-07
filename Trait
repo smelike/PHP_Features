@@ -1,0 +1,168 @@
+<?php
+
+	/*
+		https://secure.php.net/manual/en/language.oop5.traits.php
+		http://www.cnblogs.com/CraryPrimitiveMan/p/4162738.html
+		https://overtrue.me/articles/2016/04/about-php-trait.html
+		
+		
+		As of PHp 5.4.0, PHP implemenmts a method of code reuse called Traits.
+		
+		Traits are a mechanism for code reuse in single inheritance languages such as PHP. A Trait is intended to reduce some limitations of single 
+		inheritance by enabling a developer to reuse sets of methods freely in several independent classes living in different class hierarchies.
+		
+		The semantic of the the combination of Traits and classes is defined in a way which reduces complexity, and avoids the typical problems 
+		associated with multiple inheritance and Mixins.
+		
+		A Trait is similar to a class, but only intended to group functionality in a fine-grained and consistent way.
+		
+		It is not possible to instantiate a Trait on its own. It is an addition to traditional inheritance and enables horitizontal composition of behavior;
+		that is, the application of classs members without requirig inheritance.
+		
+		Precedence
+		
+		An inherited member from a base class is overridden by a member inserted by a Trait. 
+		The precedence order is that members from the current class 
+		override Trait methods, which in turn override inherited methods.
+		
+	*/
+
+	/*
+		Example #2 Precedence Order Example
+
+		An inherited method from a base class is overridden by the method inserted into MyHelloWorld from the SayWorld Trait. 
+		The behavior is the same for methods defined in the MyHelloWorld class. 
+		The precedence order is that methods from the current class override Trait methods, 
+		which in turn override methods from the base class.
+	*/
+	class Base {
+		public function sayHello() {
+			echo "I am Base Clas";
+		}
+	}
+	
+	trait SayWorld {
+		public function sayHello() {
+			parent::sayHello();
+			echo "worlkd";
+		}
+		
+		public function print_f() {
+			
+			echo sprintf("%5d", mt_rand(0, 99999));
+		}
+	}
+	
+	class MyHello extends Base {
+		
+		use SayWorld;
+		
+		public function sayHello() {
+				
+			echo __CLASS__ . '==' . __FUNCTION__;
+		}
+	}
+	
+	$object = new MyHello();
+	
+	$object->sayHello();
+	$object->print_f();
+	
+	
+	echo "<hr/>";
+	
+	
+	class Test {
+		
+		use SayWorld;
+		
+	}
+	
+
+	$test = new Test();
+	$test->print_f();
+	
+	
+	/*
+		Multiple Traits
+		
+		Multiple Traits can be inserted into a class by listing them in the use statement, separated by commas.
+		
+		<?php
+			trait Hello {
+				public function sayHello() {
+					echo 'Hello ';
+				}
+			}
+
+			trait World {
+				public function sayWorld() {
+					echo 'World';
+				}
+			}
+
+			class MyHelloWorld {
+				use Hello, World;
+				public function sayExclamationMark() {
+					echo '!';
+				}
+			}
+
+			$o = new MyHelloWorld();
+			$o->sayHello();
+			$o->sayWorld();
+			$o->sayExclamationMark();
+		?>
+	*/
+	
+	
+	/*
+		
+		Conflict Resolution 
+		If two Traits insert a method with the same name, a fatal error is produced, if the conflict is not explicitly resolved.
+
+		To resolve naming conflicts between Traits used in the same class, the insteadof operator needs to be used to choose 
+		exactly one of the conflicting methods.
+
+		Since this only allows one to exclude methods, the as operator can be used to add an alias to one of the methods. 
+		Note the as operator does not rename the method and it does not affect any other method either.
+	*/
+	
+	trait A {
+		public function smallTalk() {
+			echo 'a';
+		}
+		public function bigTalk() {
+			echo 'A';
+		}
+	}
+
+	trait B {
+		public function smallTalk() {
+			echo 'b';
+		}
+		public function bigTalk() {
+			echo 'B';
+		}
+	}
+
+	class Talker {
+		use A, B {
+			B::smallTalk insteadof A;
+			A::bigTalk insteadof B;
+		}
+	}
+
+	class Aliased_Talker {
+		use A, B {
+			B::smallTalk insteadof A;
+			A::bigTalk insteadof B;
+			B::bigTalk as talk;
+		}
+	}
+	
+	$talker = new Talker();
+	
+	$talker->smallTalk();
+	$talker->bigTalk();
+	
