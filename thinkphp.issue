@@ -1,0 +1,30 @@
+ 
+ 经常在 ThinkPHP5 模板中，使用 {:Url()} 
+ 
+ 习惯用法，如下：
+ 
+ 1、直接使用字符串，{:Url('admin/controller/index')}
+ 
+ 2、使用模板变量， {:Url($assign_variable_name)}，参考：<a href="{:Url($sub['url'])}" class="am-cf">
+ 
+ 3、是否可以使用[字符串+模板变量] 格式呢？目前，我没有找到解决办法。建议，你就不要踏入坑lol.
+ 
+ 
+ 最终调用的文件是 thinkphp\library\thinktemplate\taglib\Cx.php 文件，调用的是如下 function - tagUrl
+ 
+ /**
+     * url函数的tag标签
+     * 格式：{url link="模块/控制器/方法" vars="参数" suffix="true或者false 是否带有后缀" domain="true或者false 是否携带域名" /}
+     * @access public
+     * @param array $tag 标签属性
+     * @param string $content 标签内容
+     * @return string
+     */
+    public function tagUrl($tag, $content)
+    {
+        $url    = isset($tag['link']) ? $tag['link'] : '';
+        $vars   = isset($tag['vars']) ? $tag['vars'] : '';
+        $suffix = isset($tag['suffix']) ? $tag['suffix'] : 'true';
+        $domain = isset($tag['domain']) ? $tag['domain'] : 'false';
+        return '<?php echo url("' . $url . '","' . $vars . '",' . $suffix . ',' . $domain . ');?>';
+    }
