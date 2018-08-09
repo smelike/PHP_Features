@@ -1,0 +1,16 @@
+
+create table odta_articles(
+	
+	id int auto_increment primary key,
+	type tinyint default 0 comment '1 - 首页用的资料, 0 - 其他',
+	status tinyint default 1 comment '显示状态',
+	source varchar(20) comment '来源',
+	title varchar(60) not null comment '标题',
+	digest varchar(256) comment '摘要',
+	content text not null comment '内容',
+	seo_title varchar(60) comment 'seo标题',
+	seo_keyword varchar(120) comment 'seo关键字',
+	seo_desc varchar(256) comment 'seo描述',
+	published timestamp default NOW() comment '发表时间',
+	modified timestamp default NOW() comment '修改时间'
+) engine=InnoDB default charset=UTF8;
