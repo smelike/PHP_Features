@@ -1,0 +1,16 @@
+
+MySQL interprets length specifications in character column definitions in character units. 
+This applies to CHAR, VARCHAR, and the TEXT types.
+
+
+[NATIONAL] CHAR[(M)] [CHARACTER SET charset_name] [COLLATE collation_name]
+
+A fixed-length string that is always right-padded with spaces to the specified length when stored. 
+M represents the column length in characters. The range of M is 0 to 255. If M is omitted, the length is 1.
+
+
+MySQL permits you to create a column of type CHAR(0). This is useful primarily when you have to be compliant
+with old applications that depend on the existence of a column but that do not actually use its value.
+
+CHAR(0) is also quite nice when you need a column that can take only two values: 
+A column that is defined as CHAR(0) NULL occupies only one bit and can take only the values NULL and '' (the empty string).
