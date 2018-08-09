@@ -1,6 +1,29 @@
 
 整张表，只有一个主键索引 primary key
 
+
+/*
+	cover_pic 字段存储文件路径，定义长度为 varchar(60) 过短
+	 将 varchar(60) -> varchar(120)	
+*/
+create table odta_articles(
+	
+	id int auto_increment primary key,
+	type tinyint default 0 comment '1 - 首页用的资料, 0 - 其他',
+	status tinyint default 1 comment '显示状态',
+	resource varchar(20) comment '来源',
+	cover_pic varchar(124) comment '封面图',
+	title varchar(60) not null comment '标题',
+	digest varchar(256) comment '摘要',
+	author varchar(24) comment '作者',
+	content text not null comment '内容',
+	seo_title varchar(60) comment 'seo标题',
+	seo_keyword varchar(120) comment 'seo关键字',
+	seo_desc varchar(256) comment 'seo描述',
+	published timestamp default NOW() comment '发表时间',
+	modified timestamp default NOW() comment '修改时间'
+) engine=InnoDB default charset=UTF8;
+
 // 添加封面图字段
 
 create table odta_articles(
