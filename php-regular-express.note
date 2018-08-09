@@ -1,0 +1,15 @@
+preg_replace("/\/\*[\s\S]+?\*\//", "", file_get_contents("config.json")
+
+preg_match("/^[\w_]+$/", $_GET["callback"])
+
+preg_match('/(^https*:\/\/[^:\/]+)/', $imgUrl, $matches)
+
+preg_match('/^https*:\/\/(.+)/', $host_with_protocol, $matches)
+
+preg_match("/[\/]([^\/]*)[\.]?[^\.\/]*$/", $imgUrl, $m)
+
+preg_replace("/[\|\?\"\<\>\/\*\\\\]+/", '', $oriName)
+
+preg_match("/\{rand\:([\d]*)\}/i", $format, $matches)
+
+preg_replace("/\{rand\:[\d]*\}/i", substr($randNum, 0, $matches[1]), $format)
